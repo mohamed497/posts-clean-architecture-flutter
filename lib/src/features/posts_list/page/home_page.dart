@@ -30,23 +30,27 @@ class _HomePageState extends State<HomePage> {
         title: Text("POSTS PAGE"),
       ),
       body: BlocBuilder<PostsCubit, PostsState>(
+        bloc: _cubit,
         builder: (context, state) {
           if (state is LoadingState) {
             return const Center(
-              child: CircularProgressIndicator(color: Colors.orange,),
+              child: CircularProgressIndicator(
+                color: Colors.orange,
+              ),
             );
           } else if (state is SuccessState) {
             return ListView.separated(
                 separatorBuilder: (BuildContext context, int index) =>
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: Divider(),
-                ), itemBuilder: (context, index) {
-              final post = state.posts[index];
-              return PostItem(
-                  post: post
-              );
-            }, itemCount: state.posts.length);
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: Divider(),
+                    ),
+                itemBuilder: (context, index) {
+                  final post = state.posts[index];
+                  print("zxc title : ${post.title}");
+                  return PostItem(post: post);
+                },
+                itemCount: state.posts.length);
           } else if (state is ErrorState) {
             return Center(child: Text(state.errorMsg));
           } else {
